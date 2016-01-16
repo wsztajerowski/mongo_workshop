@@ -34,4 +34,4 @@ var PostSchema = new mongoose.Schema({
     }]
 }, {_id: true});
 
-mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('Post', PostSchema);
