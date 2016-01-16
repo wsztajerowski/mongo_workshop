@@ -1,0 +1,7 @@
+h1 Posts
+ul
+  for post in posts
+    li
+      a(href="posts/#{post.link}")
+        = post.title
+        |  by #{post.author}
