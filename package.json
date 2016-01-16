@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "*",
     "jade": "^1.11.0",
     "lodash": "*",

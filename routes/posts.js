@@ -13,4 +13,17 @@ exports.show = function(req, res, next) {
         }
         res.render('posts/show', { post: post });
     });
-}
+};
+
+exports.create = function(req, res) {
+    var post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      author: req.body.author,
+      link: req.body.link
+    });
+
+    post.save(function (err) {
+      res.redirect("/");
+    });
+};
