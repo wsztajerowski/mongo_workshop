@@ -18,5 +18,6 @@ app.use(bodyParser.urlencoded({
 app.get('/', postRoutes.index);
 app.get('/posts/:link', postRoutes.show);
 app.post('/posts', postRoutes.create);
+app.post('/posts/:id/comments', postRoutes.createComment);
 
 module.exports = app;

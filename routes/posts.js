@@ -17,13 +17,30 @@ exports.show = function(req, res, next) {
 
 exports.create = function(req, res) {
     var post = new Post({
-      title: req.body.title,
-      content: req.body.content,
-      author: req.body.author,
-      link: req.body.link
+        title: req.body.title,
+        content: req.body.content,
+        author: req.body.author,
+        link: req.body.link
     });
 
     post.save(function (err) {
-      res.redirect("/");
+        res.redirect("/");
+    });
+};
+
+exports.createComment = function(req, res, next) {
+    Post.findOne({ _id: req.params.id }, function(err, post) {
+        if (!post) {
+            return next();
+        }
+
+        post.comments.push({
+            author: req.body.author,
+            content: req.body.content
+        });
+
+        post.save(function(err) {
+            res.redirect("/posts/" + post.link);
+        });
     });
 };

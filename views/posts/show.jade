@@ -5,3 +5,19 @@ p
   i by #{post.author}
 p= post.content
 
+h2 Comments
+ul
+  for comment in post.comments
+    li
+      p #{comment.author} said:
+      p= comment.content
+
+h2 Add new comment
+
+form(action="/posts/#{post.id}/comments" method="POST")
+  p
+    input(type="text" placeholder="Your name" name="author")
+  p
+    <textarea placeholder="Write content here" name="content" rows="10" cols="80"></textarea>
+  p
+    button Create

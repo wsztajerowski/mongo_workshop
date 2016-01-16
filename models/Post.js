@@ -20,15 +20,13 @@ var PostSchema = new mongoose.Schema({
         required: true
     },
     comments : [{
-        comment : {
-            author: {
-                type: String,
-                required: true
-            },
-            content: {
-                type: String,
-                required: true
-            }
+        author: {
+            type: String,
+            required: true
+        },
+        content: {
+            type: String,
+            required: true
         },
         _id : false
     }]
