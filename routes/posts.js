@@ -1,13 +1,18 @@
-var Post = require("../models/Post");
+var requireFrom = require('requirefrom');
+var libs        = requireFrom('libs');
+var log 			  = libs('log').getLogger(module);
+var services    = requireFrom('services');
+var postService     = services('PostService');
+
 
 exports.index = function(req, res) {
-    Post.find({}, function(err, posts) {
+    postService.readAll(function(err, posts) {
         res.render('posts/index', { posts: posts });
     });
 };
 
 exports.show = function(req, res, next) {
-    Post.findOne({ link: req.params.link }, function(err, post) {
+    postService.read( req.params.link , function(err, post) {
         if (!post) {
           return next();
         }
@@ -16,31 +21,29 @@ exports.show = function(req, res, next) {
 };
 
 exports.create = function(req, res) {
-    var post = new Post({
+    var post = {
         title: req.body.title,
         content: req.body.content,
-        author: req.body.author,
-        link: req.body.link
-    });
+        author: req.body.author
+    };
 
-    post.save(function (err) {
+    postService.create(post, function (err) {
+        if(err){
+          log.error(err);
+        }
         res.redirect("/");
     });
 };
 
 exports.createComment = function(req, res, next) {
-    Post.findOne({ _id: req.params.id }, function(err, post) {
-        if (!post) {
-            return next();
+    var comment = {
+        author: req.body.author,
+        content: req.body.content
+    };
+    postService.createComment( req.params.id, comment, function(err, post) {
+        if(err){
+          log.error(err);
         }
-
-        post.comments.push({
-            author: req.body.author,
-            content: req.body.content
-        });
-
-        post.save(function(err) {
-            res.redirect("/posts/" + post.link);
-        });
+        res.redirect("/posts/" + post.link);
     });
 };

@@ -4,7 +4,8 @@ h1= post.title
 p
   i by #{post.author}
 p= post.content
-
+p
+  i Added: #{post.created}
 h2 Comments
 ul
   for comment in post.comments
