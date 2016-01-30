@@ -21,10 +21,6 @@ var PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    created: {
-        type: Date,
-        required: false
-    },
     comments : [{
         author: {
             type: String,
@@ -37,32 +33,6 @@ var PostSchema = new mongoose.Schema({
         _id : false
     }]
 }, {_id: true});
-
-PostSchema.pre('save', function (next) {
-    var post = this;
-    if (this.isNew) {
-        post.created = new Date()
-        next();
-    } else {
-        return next();
-    }
-});
-
-PostSchema.pre('validate', function (next) {
-    var post = this;
-    if (this.isNew) {
-        post.link = slugify(post.title);
-        next();
-    } else {
-        return next();
-    }
-});
-
-PostSchema.pre('find', startDebug);
-PostSchema.post('find', finishDebug);
-
-PostSchema.pre('findOne', startDebug);
-PostSchema.post('findOne', finishDebug);
 
 function startDebug() {
   logger.debug(this instanceof mongoose.Query); // true
